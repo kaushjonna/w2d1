@@ -1,9 +1,11 @@
 const https = require('https');
 
+const dataChunks = [];
+
 function getAndPrintHTMLChunks() {
   const requestOptions = {
     host: 'sytantris.github.io',
-    path: '/http-examples/step1.html',
+    path: '/http-examples/step2.html',
   };
 
   https.get(requestOptions, (response, error) => {
@@ -11,7 +13,7 @@ function getAndPrintHTMLChunks() {
 
     response.on('data', (data) => {
       if (!error && response.statusCode === 200) {
-        console.log(`${data}\n`);
+        dataChunks.push(`${data}`);
       } else {
         console.log('something went wrong');
       }
@@ -19,6 +21,9 @@ function getAndPrintHTMLChunks() {
 
     response.on('end', () => {
       console.log('Response stream complete.');
+      dataChunks.forEach((item) => {
+        console.log(item);
+      });
     });
   });
 }
